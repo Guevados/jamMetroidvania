@@ -1,4 +1,5 @@
 import pygame
+from player import Player
 
 pygame.init()
 screen = pygame.display.set_mode((1200, 720))
@@ -6,29 +7,23 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-player_pos = pygame.math.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+player_pos = pygame.math.Vector2(
+    (screen.get_width() / 2) - 64, (screen.get_height() / 2) - 80)
+player = Player(screen, clock, player_pos)
 
 while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-        screen.fill("gray")
+    screen.fill("gray")
 
-        pygame.draw.circle(screen, "red", player_pos, 40)
+    player.draw()
+    player.idle()
+    player.update()
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            player_pos.y -= 300 * dt
-        if keys[pygame.K_s]:
-            player_pos.y += 300 * dt
-        if keys[pygame.K_a]:
-            player_pos.x -= 300 * dt
-        if keys[pygame.K_d]:
-            player_pos.x += 300 * dt
+    pygame.display.flip()
 
-        pygame.display.flip()
-
-        dt = clock.tick(60) / 1000
+    dt = clock.tick(60) / 1000
 
 pygame.quit()

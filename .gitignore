@@ -1,3 +1,11 @@
-# Environments
+# Python cache
+__pycache__/
 
+# Environments
 env/
+
+# Mac OS X hidden files
+.Ds_Store
+
+# IDE config files
+.vscode/
