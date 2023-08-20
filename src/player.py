@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images['idle_right']
         self.imageIndex = 0
         self.animationTimer = 0
-        self.animationSpeed = 2
+        self.animationSpeed = 4
 
     def timer(self):
         self.animationTimer += 1
@@ -56,11 +56,13 @@ class Player(pygame.sprite.Sprite):
         self.timer()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
+            self.animationSpeed = 2
             self.image = self.images['run_right']
         elif keys[pygame.K_a]:
+            self.animationSpeed = 2
             self.image = self.images['run_left']
         else:
-            pass
+            self.animationSpeed = 4
 
     def on_key_up(self, event):
         if event.key == pygame.K_d:
@@ -75,13 +77,13 @@ class Player(pygame.sprite.Sprite):
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
-            self.pos.y -= 400 * self.dt
+            self.pos.y -= 500 * self.dt
         if keys[pygame.K_s]:
-            self.pos.y += 400 * self.dt
+            self.pos.y += 500 * self.dt
         if keys[pygame.K_a]:
-            self.pos.x -= 400 * self.dt
+            self.pos.x -= 500 * self.dt
         if keys[pygame.K_d]:
-            self.pos.x += 400 * self.dt
+            self.pos.x += 500 * self.dt
 
     def draw(self):
         self.screen.blit(self.image[self.imageIndex], self.pos)
