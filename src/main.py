@@ -15,11 +15,13 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYUP:
+            player.on_key_up(event)
 
     screen.fill("gray")
 
     player.draw()
-    player.idle()
+    player.animate()
     player.update()
 
     pygame.display.flip()
