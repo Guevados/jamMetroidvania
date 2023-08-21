@@ -36,6 +36,26 @@ class Player(pygame.sprite.Sprite):
                 pygame.image.load("src/assets/sprites/player/run_right_1.png"),
                 pygame.image.load("src/assets/sprites/player/run_right_2.png"),
                 pygame.image.load("src/assets/sprites/player/run_right_3.png"),
+            ],
+            'attack_right': [
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_right_4.png"),
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_right_5.png"),
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_right_6.png"),
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_right_7.png"),
+            ],
+            'attack_left': [
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_left_0.png"),
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_left_1.png"),
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_left_2.png"),
+                pygame.image.load(
+                    "src/assets/sprites/player/attack_left_3.png"),
             ]
 
         }
@@ -43,8 +63,9 @@ class Player(pygame.sprite.Sprite):
         self.imageIndex = 0
         self.animationTimer = 0
         self.animationSpeed = 4
+        self.direction = 'right'
 
-    def timer(self):
+    def setAnimationTimer(self):
         self.animationTimer += 1
         if self.animationTimer >= self.animationSpeed:
             self.animationTimer = 0
@@ -52,38 +73,32 @@ class Player(pygame.sprite.Sprite):
             if self.imageIndex >= len(self.image):
                 self.imageIndex = 0
 
-    def animate(self):
-        self.timer()
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_d]:
-            self.animationSpeed = 2
-            self.image = self.images['run_right']
-        elif keys[pygame.K_a]:
-            self.animationSpeed = 2
-            self.image = self.images['run_left']
-        else:
-            self.animationSpeed = 4
-
-    def on_key_up(self, event):
-        if event.key == pygame.K_d:
-            self.image = self.images['idle_right']
-        elif event.key == pygame.K_a:
-            self.image = self.images['idle_left']
-        else:
-            pass
+    def on_key_up(self):
+        self.animationSpeed = 4
+        self.image = self.images['idle_right'] if self.direction == 'right' else self.images['idle_left']
 
     def update(self):
+        self.setAnimationTimer()
         self.dt = self.clock.tick(60) / 1000
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
+        if keys[pygame.K_UP]:
             self.pos.y -= 500 * self.dt
-        if keys[pygame.K_s]:
+        if keys[pygame.K_DOWN]:
             self.pos.y += 500 * self.dt
-        if keys[pygame.K_a]:
+        if keys[pygame.K_LEFT]:
+            self.direction = 'left'
+            self.animationSpeed = 2
+            self.image = self.images['run_left']
             self.pos.x -= 500 * self.dt
-        if keys[pygame.K_d]:
+        if keys[pygame.K_RIGHT]:
+            self.direction = 'right'
+            self.animationSpeed = 2
+            self.image = self.images['run_right']
             self.pos.x += 500 * self.dt
+        elif keys[pygame.K_d]:
+            self.animationSpeed = 4
+            self.image = self.images['attack_right'] if self.direction == 'right' else self.images['attack_left']
 
     def draw(self):
         self.screen.blit(self.image[self.imageIndex], self.pos)
