@@ -11,9 +11,6 @@ class Level:
         terrain_layout = import_csv_layout(levelData['terrain'])
         self.terrain_sprites = self.create_tile_group(terrain_layout, 'terrain') 
 
-        building_layout = import_csv_layout(levelData['buildingDoors'])
-        self.building_sprites = self.create_tile_group(building_layout, 'buildingDoors')
-
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()
 
@@ -28,11 +25,6 @@ class Level:
                         tile_surface = terrain_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
 
-                    if type == 'buildingDoors':
-                        building_tile_list = import_cut_graphics('src/graphics/tileset/Buildings.png')
-                        tile_surface = building_tile_list[int(val)]
-                        sprite = StaticTile(tile_size, x, y, tile_surface)
-                        
                     sprite_group.add(sprite)
 
 
@@ -42,6 +34,3 @@ class Level:
 
         self.terrain_sprites.draw(self.display_surface)
         self.terrain_sprites.update(self.world_shift)
-
-        self.building_sprites.draw(self.display_surface) 
-        self.building_sprites.update(self.world_shift)

@@ -1,4 +1,4 @@
-screen_width = 1280
-screen_height = 800
+screen_width = 900
+screen_height = 600
 
 tile_size = 16
