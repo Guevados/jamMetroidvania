@@ -16,12 +16,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYUP:
-            player.on_key_up(event)
+            player.on_key_up()
 
     screen.fill("gray")
 
     player.draw()
-    player.animate()
     player.update()
 
     pygame.display.flip()
