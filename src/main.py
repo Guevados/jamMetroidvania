@@ -1,11 +1,15 @@
 import pygame
+from settings import screen_width, screen_height
 from player import Player
+from components.level import Level 
+from components.gameData import level_0
 
 pygame.init()
-screen = pygame.display.set_mode((1200, 720))
+screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 running = True
 dt = 0
+level = Level(level_0, screen)
 
 player_pos = pygame.math.Vector2(
     (screen.get_width() / 2) - 64, (screen.get_height() / 2) - 80)
@@ -19,6 +23,7 @@ while running:
             player.on_key_up()
 
     screen.fill("gray")
+    level.run()
 
     player.draw()
     player.update()
