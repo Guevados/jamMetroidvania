@@ -2,16 +2,16 @@ import pygame
 from settings import screen_width, screen_height
 from components import Player, Level, level_0
 
+PJ_INITIAL_POSITION = pygame.math.Vector2(0, 220)
 
 pygame.init()
+
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 running = True
 dt = 0
 level = Level(level_0, screen)
-player_pos = pygame.math.Vector2(
-    (screen.get_width() / 2) - 64, (screen.get_height() / 2) - 80)
-player = Player(screen, clock, player_pos)
+player = Player(screen, clock, PJ_INITIAL_POSITION)
 
 while running:
     for event in pygame.event.get():
@@ -25,6 +25,12 @@ while running:
 
     player.draw()
     player.update()
+
+    collided = pygame.sprite.spritecollide(
+        player, level.terrain_sprites, False)
+
+    if collided:
+        player.on_collision()
 
     pygame.display.flip()
 
