@@ -66,9 +66,6 @@ class Player(pygame.sprite.Sprite):
         self.animationSpeed = 4
         self.direction = 'right'
 
-        self.speed = 0
-        self.acceleration = 50
-
         self.rect = pygame.Rect(
             pos.x, pos.y, self.image[0].get_width() - 30, self.image[0].get_height() - 30)
 
@@ -113,7 +110,13 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self):
         self.screen.blit(self.image[self.imageIndex], self.pos)
-        pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 3)
+        # pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 3)
 
-    def on_collision(self):
+    def on_vertical_collision(self):
         self.vel.y = 0
+
+    def on_horizontal_collision(self):
+        if self.direction == 'right':
+            self.pos.x -= self.vel.x * self.dt
+        elif self.direction == 'left':
+            self.pos.x += self.vel.x * self.dt
