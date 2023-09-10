@@ -1,4 +1,5 @@
 import pygame
+from settings import DEBUG
 
 
 class Player(pygame.sprite.Sprite):
@@ -110,7 +111,9 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self):
         self.screen.blit(self.image[self.imageIndex], self.pos)
-        # pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 3)
+        if DEBUG:
+            # Show sprites rect
+            pygame.draw.rect(self.screen, (0, 255, 0), self.rect, 2)
 
     def on_vertical_collision(self):
         self.vel.y = 0

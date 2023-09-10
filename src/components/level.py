@@ -1,5 +1,5 @@
 import pygame
-from settings import tile_size
+from settings import DEBUG, tile_size
 from components import (
     StaticTile,
     import_csv_layout,
@@ -65,10 +65,11 @@ class Level():
     def run(self):
         self.level_sprites.draw(self.display_surface)
         self.level_sprites.update(self.world_shift)
-        # Show terrain sprites
-        # for ground in self.ground_sprites:
-        #     pygame.draw.rect(self.display_surface,
-        #                      (255, 0, 0), ground.rect, 2)
-        # for wall in self.wall_sprites:
-        #     pygame.draw.rect(self.display_surface,
-        #                      (0, 0, 255), wall.rect, 2)
+        if DEBUG:
+            # Show sprites rect
+            for ground in self.ground_sprites:
+                pygame.draw.rect(self.display_surface,
+                                 (255, 0, 0), ground.rect, 2)
+            for wall in self.wall_sprites:
+                pygame.draw.rect(self.display_surface,
+                                 (0, 0, 255), wall.rect, 2)
