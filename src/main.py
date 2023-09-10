@@ -26,11 +26,15 @@ while running:
     player.draw()
     player.update()
 
-    collided = pygame.sprite.spritecollide(
-        player, level.terrain_sprites, False)
+    ground_collision = pygame.sprite.spritecollide(
+        player, level.ground_sprites, False)
+    if ground_collision:
+        player.on_vertical_collision()
 
-    if collided:
-        player.on_collision()
+    wall_collision = pygame.sprite.spritecollide(
+        player, level.wall_sprites, False)
+    if wall_collision:
+        player.on_horizontal_collision()
 
     pygame.display.flip()
 
