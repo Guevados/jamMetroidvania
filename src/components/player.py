@@ -1,4 +1,5 @@
 import pygame
+from settings import DEBUG
 
 
 class Player(pygame.sprite.Sprite):
@@ -6,6 +7,7 @@ class Player(pygame.sprite.Sprite):
         self.screen = screen
         self.clock = clock
         self.pos = pos
+        self.vel = pygame.math.Vector2(500, 0.5)
         self.dt = 0
 
         self.images = {
@@ -65,6 +67,9 @@ class Player(pygame.sprite.Sprite):
         self.animationSpeed = 4
         self.direction = 'right'
 
+        self.rect = pygame.Rect(
+            pos.x, pos.y, self.image[0].get_width() - 30, self.image[0].get_height() - 30)
+
     def setAnimationTimer(self):
         self.animationTimer += 1
         if self.animationTimer >= self.animationSpeed:
@@ -83,22 +88,38 @@ class Player(pygame.sprite.Sprite):
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP]:
-            self.pos.y -= 500 * self.dt
-        if keys[pygame.K_DOWN]:
-            self.pos.y += 500 * self.dt
+            self.pos.y -= 10
         if keys[pygame.K_LEFT]:
             self.direction = 'left'
             self.animationSpeed = 2
             self.image = self.images['run_left']
-            self.pos.x -= 500 * self.dt
+            self.pos.x -= self.vel.x * self.dt
         if keys[pygame.K_RIGHT]:
             self.direction = 'right'
             self.animationSpeed = 2
             self.image = self.images['run_right']
-            self.pos.x += 500 * self.dt
+            self.pos.x += self.vel.x * self.dt
         elif keys[pygame.K_d]:
             self.animationSpeed = 4
             self.image = self.images['attack_right'] if self.direction == 'right' else self.images['attack_left']
 
+        self.pos.y += self.vel.y
+        self.vel.y += 1
+
+        self.rect.x = self.pos.x
+        self.rect.y = self.pos.y
+
     def draw(self):
         self.screen.blit(self.image[self.imageIndex], self.pos)
+        if DEBUG:
+            # Show sprites rect
+            pygame.draw.rect(self.screen, (0, 255, 0), self.rect, 2)
+
+    def on_vertical_collision(self):
+        self.vel.y = 0
+
+    def on_horizontal_collision(self):
+        if self.direction == 'right':
+            self.pos.x -= self.vel.x * self.dt
+        elif self.direction == 'left':
+            self.pos.x += self.vel.x * self.dt
