@@ -8,15 +8,16 @@ def import_csv_layout(path):
         level = reader(map, delimiter=",")
         for row in level:
             terrain_map.append(list(row))
-        return terrain_map
+
+    return terrain_map
 
 def import_cut_graphics(path):
     surface = pygame.image.load(path).convert_alpha()
-    tile_num_x = int(surface.get_size()[0] // tile_size)  
-    tile_num_y = int(surface.get_size()[1] // tile_size) 
+    tile_num_x = int(surface.get_size()[0] // tile_size)
+    tile_num_y = int(surface.get_size()[1] // tile_size)
 
     cut_tiles = []
-    
+
     for row in range(tile_num_y):
         for col in range(tile_num_x):
             x = col * tile_size
