@@ -1,5 +1,6 @@
 import pygame
 from support_lvl import import_folder
+from math import sin
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, size, x, y):
@@ -66,3 +67,27 @@ class Avatar(Entity):
         else:
             img_left = pygame.transform.flip(img_right, True, False)
             self.image = img_left
+
+        if self.on_ground and self.on_right:
+            self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
+        elif self.on_ground and self.on_left:
+            self.rect = self.image.get_rect(bottomleft = self.rect.bottomleft)
+        elif self.on_ground:
+            self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
+        elif self.on_ceiling and self.on_right:
+            self.rect = self.image.get_rect(topright = self.rect.topright)
+        elif self.on_ceiling and self.on_left:
+            self.rect = self.image.get_rect(topleft = self.rect.topleft)
+        elif self.on_ceiling:
+            self.rect = self.image.get_rect(midtop = self.rect.midtop)
+
+        if self.invicible:
+            alpha = self.wave_func()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
+
+        def wave_func(self):
+            value = sin(pygame.time.get_ticks())
+            if value >= 0: return 255
+            else: return 0

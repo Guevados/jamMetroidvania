@@ -13,6 +13,7 @@ dt = 0
 level = Level(level_0, screen)
 player = Player(screen, clock, PJ_INITIAL_POSITION)
 
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
